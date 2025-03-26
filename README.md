@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Movieqqi
 
-## Getting Started
+This is a Movie Library web application built using Next.js and DaisyUI, powered by The Movie Database (TMDb) API. This project was created for practice and to explore working with external APIs in a modern frontend framework.
 
-First, run the development server:
+🚀 Features
 
-```bash
+Display a list of movies fetched from TMDb API
+
+Responsive UI built with DaisyUI and Tailwind CSS
+
+Dynamic movie details with images, titles, and descriptions
+
+Optimized with Next.js for performance
+
+🛠 Tech Stack
+
+Next.js (Pages Router)
+
+React
+
+DaisyUI (Tailwind CSS Components)
+
+TMDb API
+
+TanStack React Query (for data fetching)
+
+📦 Installation
+
+Clone the repository:
+
+git clone https://github.com/your-username/movie-library.git
+cd movie-library
+
+Install dependencies:
+
+npm install
+
+Set up environment variables:
+Create a .env.local file in the root directory and add:
+
+API_KEY=your_tmdb_api_key_here
+
+Run the development server:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+🔧 Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Browse the latest movies
 
-## Learn More
+Click on a movie to view more details
 
-To learn more about Next.js, take a look at the following resources:
+Search for specific movies (future feature)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+📷 Screenshots
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Add screenshots here to showcase the UI
 
-## Deploy on Vercel
+📝 To-Do
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+📜 License
+
+This project is for practice and learning purposes. Feel free to modify and improve it!
