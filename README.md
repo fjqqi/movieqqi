@@ -28,7 +28,7 @@ TanStack React Query (for data fetching)
 
 Clone the repository:
 
-git clone https://github.com/your-username/movie-library.git
+git clone git remote add origin https://github.com/fjqqi/movieqqi.git
 cd movie-library
 
 Install dependencies:

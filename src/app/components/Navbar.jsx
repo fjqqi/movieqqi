@@ -5,7 +5,7 @@ import React from 'react'
 
   export const Navbar = () => {
     return (
-<div className="navbar bg-base-100 shadow-sm lg:px-32">
+<div className="navbar bg-base-100 shadow-xs lg:px-32">
   <div className="flex-1">
     <a className="btn btn-ghost text-xl">daisyUI</a>
   </div>
