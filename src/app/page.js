@@ -57,8 +57,7 @@ export default function Home() {
                   there are title and actions parts
                 </p>
                 <div className="card-actions justify-end">
-                  {/* <div className="badge badge-outline">Fashion</div>
-                  <div className="badge badge-outline">Products</div> */}
+                  <div className="badge badge-outline">{movie.vote_average}</div>
                 </div>
               </div>
             </div>
