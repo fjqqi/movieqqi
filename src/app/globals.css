@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@plugin "daisyui";
+
+@plugin "daisyui" {
+  themes: nord --default, light --prefersdark;
+}
 
 @custom-variant dark (&:is(.dark *));
 

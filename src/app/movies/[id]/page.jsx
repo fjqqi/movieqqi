@@ -9,24 +9,52 @@ const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 export default function MovieDetail() {
   const params = useParams();
+  const movieId = params?.id;
 
-  const { isPending, error, data } = useQuery({
-    queryKey: ["movie", params.id],
+  /* Fetch Movie Details */
+  const {
+    isPending: moviePending,
+    error: movieError,
+    data: movieData,
+  } = useQuery({
+    queryKey: ["movie", movieId],
     queryFn: () =>
       fetch(
-        `https://api.themoviedb.org/3/movie/${params.id}?language=en-US&api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/movie/${movieId}?language=en-US&api_key=${API_KEY}`
       ).then((res) => res.json()),
   });
 
-  if (isPending)
+  /* Fetch Movie Credits */
+  const {
+    isPending: crewPending,
+    error: crewError,
+    data: crewData,
+  } = useQuery({
+    queryKey: ["crew", movieId],
+    queryFn: () =>
+      fetch(
+        `https://api.themoviedb.org/3/movie/${movieId}/credits?language=en-US&api_key=${API_KEY}`
+      ).then((res) => res.json()),
+    enabled: !!movieId,
+  });
+  const crew = crewData?.crew || [];
+  // const genreName = genreData?.genres?.find((g) => g.id == genreId)?.name || "Unknown Genre";
+  const director = crew?.find((d)=> d.job === "Director") 
+  console.log(director);
+
+
+  if (moviePending || crewPending)
     return (
       <div className="w-full h-screen flex justify-center items-center">
         <Loading />
       </div>
     );
-  if (error)
+
+  if (movieError || crewError)
     return (
-      <div className="text-red-500 text-center">Error: {error.message}</div>
+      <div className="text-red-500 text-center">
+        Error: {movieError?.message || crewError?.message}
+      </div>
     );
 
   return (
@@ -35,7 +63,7 @@ export default function MovieDetail() {
       <div
         className="relative w-full h-64 lg:h-80 bg-cover bg-center lg:rounded-xl"
         style={{
-          backgroundImage: `url(https://image.tmdb.org/t/p/w1280${data.backdrop_path})`,
+          backgroundImage: `url(https://image.tmdb.org/t/p/w1280${movieData.backdrop_path})`,
         }}
       >
         {/* <div className="absolute inset-0 bg-black bg-opacity-50 rounded-xl"></div> */}
@@ -45,20 +73,24 @@ export default function MovieDetail() {
       <div className="flex flex-col md:flex-row gap-6 lg:mt-6 mt-2 lg:px-0 px-2">
         {/* Movie Poster */}
         <img
-          src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-          alt={data.title}
+          src={`https://image.tmdb.org/t/p/w500${movieData.poster_path}`}
+          alt={movieData.title}
           className="w-64 rounded-lg shadow-lg"
         />
 
         {/* Movie Details */}
         <div className="flex-1">
           <h1 className="text-4xl font-bold">
-            {data.title} ({data.release_date?.split("-")[0]})
+            {movieData.title} ({movieData.release_date?.split("-")[0]})
           </h1>
+
+          <h2 className="text-xl text-base-content opacity-50  mb-2">
+            {director.name} 
+          </h2>
 
           {/* Genres */}
           <div className="mt-2 flex flex-wrap gap-2">
-            {data.genres.map((genre) => (
+            {movieData.genres.map((genre) => (
               <Link
                 key={genre.id}
                 href={`/genre/${genre.id}`}
@@ -72,34 +104,34 @@ export default function MovieDetail() {
           {/* Ratings & Runtime */}
           <div className="mt-3 flex items-center space-x-4">
             <span className="text-lg font-semibold">
-              ⭐ {data.vote_average.toFixed(1)} / 10
+              ⭐ {movieData.vote_average.toFixed(1)} / 10
             </span>
-            <span className="text-base-content">{data.runtime} min</span>
+            <span className="text-base-content">{movieData.runtime} min</span>
           </div>
 
           {/* Rotten Tomatoes-style Scores */}
           <div className="flex items-center mt-4 space-x-4">
             <div className="flex items-center gap-2">
               <span className="text-2xl font-bold text-green-500">
-                🍅 {Math.round(data.vote_average * 10)}%
+                🍅 {Math.round(movieData.vote_average * 10)}%
               </span>
               <span className="text-gray-500 text-sm">Critic Score</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-2xl font-bold text-blue-500">
-                🎟️ {Math.round((data.popularity / 1000) * 100)}%
+                🎟️ {Math.round((movieData.popularity / 1000) * 100)}%
               </span>
               <span className="text-gray-500 text-sm">Audience Score</span>
             </div>
           </div>
 
           {/* Overview */}
-          <p className="mt-4 text-base-content">{data.overview}</p>
+          <p className="mt-4 text-base-content">{movieData.overview}</p>
         </div>
       </div>
 
       {/* Cast Section */}
-      <MovieCast movieId={data.id} />
+      <MovieCast movieId={movieData.id} />
     </div>
   );
 }
@@ -118,7 +150,7 @@ function MovieCast({ movieId }) {
   if (error) return <p className="mt-6 text-red-500">Failed to load cast.</p>;
   const cast = data.cast.slice(0, 10);
 
-  console.log(data);
+
   return (
     <>
       <div className="mt-6">
